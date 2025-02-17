@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+#  frontend:
+#    image: angular-docker
+#    container_name: frontend-angular
+#    restart: always
+#    depends_on:
+#      - backend
+#    ports:
+#      - "8081:80"
+#
+#  backend:
+#    image: meu-backend
+#    container_name: backend-springboot
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=prod
+#
+#  nginx:
+#    image: nginx:alpine
+#    container_name: nginx-proxy
+#    restart: always
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/nginx.conf
+#    depends_on:
+#      - frontend
+#      - backend
+
+  postgres_estoque_java:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: "postgresEstoque"
+      POSTGRES_PASSWORD: "Postgre12345Estoque"
+    volumes:
+#      - ./postgresData/:/docker-entrypoint-initdb.d/01-basegeografica.sql
+#      - ./postgresData/:/docker-entrypoint-initdb.d/02-basegeografica.sql
+      - postgres_volume_data_estoque_java:/var/lib/postgresql/data
+    ports:
+      - 5438:5432
+
+  redis_estoque_java:
+     image: redis:6.0.7
+     container_name: redis_estoque_java
+     restart: always
+     volumes:
+       - redis_volume_data_estoque_java:/data
+     ports:
+     - 7006:6379
+  redis_insight_estoque_java:
+     image: redislabs/redisinsight:latest
+     container_name: redis_insight_estoque_java
+     restart: always
+     ports:
+       - 5506:8001
+     volumes:
+     - redis_insight_volume_data_estoque_java:/db
+
+volumes:
+  postgres_volume_data_estoque_java:
+    external: true
+    name: backend_postgres_volume_data_estoque_java
+  redis_volume_data_estoque_java:
+    external: true
+    name: backend_redis_volume_data_estoque_java
+  redis_insight_volume_data_estoque_java:
+    external: true
+    name: backend_redis_insight_volume_data_estoque_java
