@@ -40,7 +40,10 @@ public class UserRepository implements IUserRepository {
     public User GetUserByIdInfoEmailPasswordHash(UUID guidId) {
         return userRepositoryJPA.GetUserByIdInfoEmailPasswordHash(guidId);
     }
-
+    @Override
+    public User GetUserByPhoneInfoUpdate(String phone) {
+        return userRepositoryJPA.GetUserByPhoneInfoUpdate(phone);
+    }
     @Override
     public UserDTO GetUserInfoToLogin(String email) {
         return userRepositoryJPA.GetUserInfoToLogin(email);

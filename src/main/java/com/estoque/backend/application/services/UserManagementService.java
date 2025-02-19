@@ -59,10 +59,20 @@ public class UserManagementService implements IUserManagementService {
     }
 
     @Override
+    @Transactional
     public ResultService<UserDTO> findById(String phone) {
-        var userDto = new UserDTO();
-        userDto.setCpf("asdok´pjcvdsioupjfdjiosp");
-        return ResultService.Ok(userDto);
+        try {
+            User user = userRepository.GetUserByPhoneInfoUpdate(phone);
+
+            if(user == null){
+                return ResultService.Fail("not found");
+            }
+
+            var userMap = modelMapper.map(user, UserDTO.class);
+            return ResultService.Ok(userMap); // testar isso para ver se o "Mapper" vai funcionar
+        }catch (Exception ex){
+            return ResultService.Fail(ex.getMessage());
+        }
     }
 
     @Override
@@ -92,7 +102,7 @@ public class UserManagementService implements IUserManagementService {
             user.setPasswordHash(null);
 
             var userMap = modelMapper.map(user, UserDTO.class);
-            return ResultService.Ok(userMap); // testar isso para ver se o "Mapper" vai funcionar
+            return ResultService.Ok(userMap);
         }catch (Exception ex){
             return ResultService.Fail(ex.getMessage());
         }
@@ -155,14 +165,6 @@ public class UserManagementService implements IUserManagementService {
 
             if(userData == null)
                 return ResultService.Fail("error User Creation is null");
-
-//            var userAddressCreateValidatorDTO = userCreateValidatorDTO.getUserAddressCreateValidatorDTO();
-//            userAddressCreateValidatorDTO.setUserId(uuid_user_id.toString());
-//
-//            var resultCreate = userAddressService.CreateToUser(userAddressCreateValidatorDTO);
-//
-//            if(!resultCreate.IsSuccess)
-//                return ResultService.Fail(resultCreate.Message);
 
             InfoErrors<TokenOutValue> tokenOut = tokenGenerator.generatorTokenUser(userData);
 
@@ -228,19 +230,6 @@ public class UserManagementService implements IUserManagementService {
             if(userData == null)
                 return ResultService.Fail("error User Creation is null");
 
-//            var userAddressCreateValidatorDTO = new UserAddressCreateValidatorDTO(null, null, null,
-//                    null, null,null, null, null, null,0, -1, uuid_user_id.toString());
-
-//            UserAddressCreateValidatorDTO(String cep, String recipientName, String address,
-//                    Integer numberHome, String complement, String neighborhood, String city,
-//                    String state, String referencePoint, Integer defaultAddress, Integer saveAs, String userId,
-//                    String cellPhone)
-
-//            var resultCreate = userAddressService.CreateToUser(userAddressCreateValidatorDTO);
-//
-//            if(!resultCreate.IsSuccess)
-//                return ResultService.Fail(resultCreate.Message);
-
             InfoErrors<TokenOutValue> tokenOut = tokenGenerator.generatorTokenUser(userData);
 
             if(!tokenOut.IsSuccess)
@@ -273,7 +262,7 @@ public class UserManagementService implements IUserManagementService {
             var checkIfUserExist = userRepository.GetUserByEmail(userUpdateValidatorDTO.getEmail());
 
             if(checkIfUserExist == null)
-                return ResultService.Fail("Error user not exist");
+                return ResultService.Fail("Error user does not exist");
 
             String birthDateString = userUpdateValidatorDTO.getBirthDate();
 
@@ -313,13 +302,12 @@ public class UserManagementService implements IUserManagementService {
             var checkIfUserExist = userRepository.GetUserByEmail(email);
 
             if(checkIfUserExist == null)
-                return ResultService.Fail("Error user not exist");
+                return ResultService.Fail("Error user does not exist");
 
             String passwordEncoder = bCryptPasswordEncoder.encodePassword(userUpdatePasswordValidatorDTO.getNewPassword());
 
             var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(email, password);
             Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-            // TESTAR SE A SENHA FOR ERRADA TEM QUE PEGAR "Exception" E DEPOIS RETORNAR AQUI "ChangePasswordResult" UM OBJETO
 
             User userAuth = (User) authenticate.getPrincipal();
 

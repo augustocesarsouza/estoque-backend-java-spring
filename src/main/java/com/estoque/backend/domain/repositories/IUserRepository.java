@@ -11,6 +11,7 @@ public interface IUserRepository {
     UserDTO findByIdToDatePersonal(UUID userId);
     User GetUserByEmail(String email);
     User GetUserByIdInfoEmailPasswordHash(UUID guidId);
+    User GetUserByPhoneInfoUpdate(String phone);
     UserDTO GetUserInfoToLogin(String email);
     User GetUserByIdForDeleteImg(UUID userId);
     User GetUserByEmailToUserAuthentication(String email);

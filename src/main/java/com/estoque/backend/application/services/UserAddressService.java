@@ -41,11 +41,10 @@ public class UserAddressService implements IUserAddressService {
             UserAddressDTO addressDTO = userAddressRepository.GetAddressById(addressId);
 
             if(addressDTO == null){
-                return ResultService.Fail("not found");
+                return ResultService.Fail("address does not found");
             }
 
-            var addressMap = modelMapper.map(addressDTO, UserAddressDTO.class);
-            return ResultService.Ok(addressMap);
+            return ResultService.Ok(addressDTO);
         }catch (Exception ex){
             return ResultService.Fail(ex.getMessage());
         }
@@ -58,10 +57,9 @@ public class UserAddressService implements IUserAddressService {
             UserAddressDTO addressDTO = userAddressRepository.GetAddressByIdWithUserProperty(addressId);
 
             if(addressDTO == null){
-                return ResultService.Fail("not found");
+                return ResultService.Fail("address does not found");
             }
 
-//            var addressMap = modelMapper.map(addressDTO, AddressDTO.class);
             return ResultService.Ok(addressDTO);
         }catch (Exception ex){
             return ResultService.Fail(ex.getMessage());
@@ -75,7 +73,7 @@ public class UserAddressService implements IUserAddressService {
             List<UserAddressDTO> addressDTO = userAddressRepository.GetAddressByUserId(userId);
 
             if(addressDTO == null){
-                return ResultService.Fail("not found");
+                return ResultService.Fail("list address does not found");
             }
 
             return ResultService.Ok(addressDTO);
@@ -145,7 +143,7 @@ public class UserAddressService implements IUserAddressService {
             var userVerify = userManagementService.VerifyWhetherUserExist(userId);
 
             if(!userVerify.IsSuccess)
-                return ResultService.Fail("Error User not exist");
+                return ResultService.Fail("Error User does not exist");
 
             var verifyIfExistAddressRegistered = userAddressRepository.VerifyIfUserAlreadyHaveAddress(userId);
 
@@ -191,7 +189,7 @@ public class UserAddressService implements IUserAddressService {
             var addressDb = userAddressRepository.GetAddressByIdToDelete(UUID.fromString(updateDTOValidator.getId()));
 
             if(addressDb == null)
-                return ResultService.Fail("Error Address not found");
+                return ResultService.Fail("Error Address does not found");
 
             var addressToUpdate = new UserAddress(UUID.fromString(updateDTOValidator.getId()), updateDTOValidator.getFullName(),updateDTOValidator.getPhoneNumber(),
                     updateDTOValidator.getCep(), updateDTOValidator.getStateCity(), updateDTOValidator.getNeighborhood(),
@@ -226,7 +224,7 @@ public class UserAddressService implements IUserAddressService {
             var addressDb = userAddressRepository.GetAddressById(UUID.fromString(updateOnlyDefaultDTOValidator.getId()));
 
             if(addressDb == null)
-                return ResultService.Fail("Error Address not found");
+                return ResultService.Fail("Error Address does not found");
 
             var addressUpdateDefault = userAddressRepository.GetAddressDefaultAllInfo();
             addressUpdateDefault.setDefaultAddress((byte)0);
@@ -254,7 +252,7 @@ public class UserAddressService implements IUserAddressService {
             var addressToDelete = userAddressRepository.GetAddressByIdToDelete(addressId);
 
             if(addressToDelete == null)
-                return ResultService.Fail("Address not found");
+                return ResultService.Fail("Address does not found");
 
             UserAddress addressDeleteSuccessfully = userAddressRepository.delete(addressId);
             addressDeleteSuccessfully.getUser().setPasswordHash(null);

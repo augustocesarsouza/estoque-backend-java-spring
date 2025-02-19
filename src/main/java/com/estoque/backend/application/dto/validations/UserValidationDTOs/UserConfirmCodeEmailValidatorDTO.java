@@ -11,8 +11,8 @@ public class UserConfirmCodeEmailValidatorDTO {
     @Min(value = 1, message = "Code must be greater than 0")
     @JsonProperty("code")
     private Integer Code;
-    @NotEmpty(message = "idGuid should not be empty")
-    @Size(min = 36, message = "idGuid should have at last 36 characters")
+    @NotEmpty(message = "userId should not be empty")
+    @Size(min = 36, message = "userId should have at last 36 characters")
     @JsonProperty("userId")
     private String UserId;
     @JsonProperty("email")

@@ -124,7 +124,7 @@ public class UserAuthenticationService implements IUserAuthenticationService {
             int randomCode = generateRandomNumber();
             dictionaryCode.putKeyValueDictionary(user.getId().toString(), randomCode);
 
-            var resultSend = sendEmailUser.sendCodeRandom(user, randomCode);
+            InfoErrors<String> resultSend = sendEmailUser.sendCodeRandom(user, randomCode);
 
             if(!resultSend.IsSuccess){
                 return ResultService.Fail(new CodeSendEmailUserValidatorDTO(null, null, resultSend.Data,

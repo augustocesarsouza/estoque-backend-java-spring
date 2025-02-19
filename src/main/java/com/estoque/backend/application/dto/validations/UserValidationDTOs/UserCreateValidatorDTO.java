@@ -45,10 +45,6 @@ public class UserCreateValidatorDTO {
     @Size(min = 8, message = "password should have at last 8 characters")
     @JsonProperty("password")
     private String Password;
-//    @NotNull(message = "userAddressCreateValidatorDTO should not be null")
-//    @Valid
-//    @JsonProperty("userAddressCreateValidatorDTO")
-//    private UserAddressCreateValidatorDTO UserAddressCreateValidatorDTO;
 
     public UserCreateValidatorDTO(String name, String lastName, String birthDate, String gender,
                                   String cpf, String email, String landline, String cellPhone, String userImage,
@@ -63,7 +59,6 @@ public class UserCreateValidatorDTO {
         CellPhone = cellPhone;
         UserImage = userImage;
         Password = password;
-//        UserAddressCreateValidatorDTO = userAddressCreateValidatorDTO;
     }
 
     public UserCreateValidatorDTO() {
@@ -109,10 +104,6 @@ public class UserCreateValidatorDTO {
         return Password;
     }
 
-//    public UserAddressCreateValidatorDTO getUserAddressCreateValidatorDTO() {
-//        return UserAddressCreateValidatorDTO;
-//    }
-
     public void setName(String name) {
         Name = name;
     }
@@ -152,8 +143,4 @@ public class UserCreateValidatorDTO {
     public void setPassword(String password) {
         Password = password;
     }
-
-//    public void setUserAddressCreateValidatorDTO(UserAddressCreateValidatorDTO userAddressCreateValidatorDTO) {
-//        UserAddressCreateValidatorDTO = userAddressCreateValidatorDTO;
-//    }
 }
