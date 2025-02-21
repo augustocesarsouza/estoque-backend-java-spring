@@ -1,13 +1,11 @@
 package com.estoque.backend.data.context;
 
-import com.estoque.backend.application.dto.UserAddressDTO;
 import com.estoque.backend.application.dto.UserDTO;
 import com.estoque.backend.domain.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Repository
@@ -18,11 +16,13 @@ public interface UserRepositoryJPA extends JpaRepository<User, UUID> {
             "FROM User AS x " +
             "WHERE x.Id = :userId")
     UserDTO GetUserById(UUID userId);
-    @Query("SELECT new com.backend.shopee.shopee_backend.domain.entities." +
-            "User(x.Id, x.Name, x.Email, x.Gender, x.Phone, x.PasswordHash, x.Cpf, x.BirthDate, x.ConfirmEmail, x.UserImage) " +
+
+    @Query("SELECT new com.estoque.backend.domain.entities." +
+            "User(x.Id, x.Name, null, null, x.Gender, null, null, null, null, null, null, null) " +
             "FROM User AS x " +
-            "WHERE x.Phone = :phone")
-    User GetUserByPhoneInfoUpdate(String phone);
+            "WHERE x.CellPhone = :cellPhone")
+    User GetUserByPhoneInfoUpdate(String cellPhone);
+
     @Query("SELECT new com.estoque.backend.application.dto." +
             "UserDTO(x.Id, x.Name, x.LastName, x.BirthDate, x.Gender, x.Cpf, x.Email, " +
             "x.Landline, x.CellPhone, null, x.UserImage, null, null) " +

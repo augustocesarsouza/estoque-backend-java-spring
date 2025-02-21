@@ -1,7 +1,9 @@
 package com.estoque.backend;
 
+import com.estoque.backend.application.dto.ImgHighlightDTO;
 import com.estoque.backend.application.dto.UserAddressDTO;
 import com.estoque.backend.application.dto.UserDTO;
+import com.estoque.backend.domain.entities.ImgHighlight;
 import com.estoque.backend.domain.entities.User;
 import com.estoque.backend.domain.entities.UserAddress;
 import org.modelmapper.ModelMapper;
@@ -56,6 +58,15 @@ public class ModelConfiguration {
 
                 when(Objects::nonNull)
                         .map(source.getUser(), destination.getUserDTO());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<ImgHighlight, ImgHighlightDTO>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                map().setImg(source.getImg());
+                map().setAlt(source.getAlt());
             }
         });
 
