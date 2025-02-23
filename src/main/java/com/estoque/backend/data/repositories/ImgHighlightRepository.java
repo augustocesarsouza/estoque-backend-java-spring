@@ -4,6 +4,7 @@ import com.estoque.backend.application.dto.ImgHighlightDTO;
 import com.estoque.backend.data.context.ImgHighlightRepositoryJPA;
 import com.estoque.backend.domain.entities.ImgHighlight;
 import com.estoque.backend.domain.repositories.IImgHighlightRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.UUID;
 public class ImgHighlightRepository implements IImgHighlightRepository {
     private final ImgHighlightRepositoryJPA imgHighlightRepositoryJPA;
 
+    @Autowired
     public ImgHighlightRepository(ImgHighlightRepositoryJPA imgHighlightRepositoryJPA) {
         this.imgHighlightRepositoryJPA = imgHighlightRepositoryJPA;
     }

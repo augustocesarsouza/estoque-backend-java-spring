@@ -74,21 +74,23 @@ public class CloudinaryUti implements ICloudinaryUti {
         CloudinaryResult cloudinaryResult = new CloudinaryResult();
 
         try {
-            // Regex para capturar o resourceType, folder e publicId
-            Pattern pattern = Pattern.compile("/(image|video)/upload/(?:v\\d+/)?([^/]+)/([^/.]+)");
+//            Pattern pattern = Pattern.compile("/upload/v\\d+/(.+)");
+            Pattern pattern = Pattern.compile("/(image|video)/upload/v\\d+/(.+)");
             Matcher matcher = pattern.matcher(url);
 
-            if(!matcher.find()){
+            if (!matcher.find()) {
                 cloudinaryResult.setDeleteSuccessfully(false);
                 cloudinaryResult.setMessage("Failed to extract public ID from URL.");
                 return cloudinaryResult;
             }
 
-            String resourceType = matcher.group(1); // Tipo de recurso: "image" ou "video"
-            String folder = matcher.group(2);       // Pasta: "img-user"
-            String publicId = matcher.group(3);     // PublicId: "jxpl6lrhuisuoqclx6bo"
+            String resourceType = matcher.group(1);
 
-            String publicIdAll = folder + "/" + publicId;
+            // Captura o caminho completo após "upload/v<versão>/"
+            String publicIdAll = matcher.group(2);
+
+            // Remove a extensão do arquivo
+            publicIdAll = removeFileExtension(publicIdAll);
 
             List<String> publicList = new ArrayList<>();
             publicList.add(publicIdAll);
@@ -100,6 +102,11 @@ public class CloudinaryUti implements ICloudinaryUti {
             cloudinaryResult.setMessage(e.getMessage());
             return cloudinaryResult;
         }
+    }
+
+    public String removeFileExtension(String filename) {
+        int lastDotIndex = filename.lastIndexOf(".");
+        return (lastDotIndex != -1) ? filename.substring(0, lastDotIndex) : filename;
     }
 
     @Override

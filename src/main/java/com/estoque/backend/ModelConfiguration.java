@@ -1,17 +1,14 @@
 package com.estoque.backend;
 
-import com.estoque.backend.application.dto.ImgHighlightDTO;
-import com.estoque.backend.application.dto.UserAddressDTO;
-import com.estoque.backend.application.dto.UserDTO;
-import com.estoque.backend.domain.entities.ImgHighlight;
-import com.estoque.backend.domain.entities.User;
-import com.estoque.backend.domain.entities.UserAddress;
+import com.estoque.backend.application.dto.*;
+import com.estoque.backend.domain.entities.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Configuration
 public class ModelConfiguration {
@@ -70,6 +67,27 @@ public class ModelConfiguration {
             }
         });
 
+        modelMapper.addMappings(new PropertyMap<Item, ItemDTO>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                map().setName(source.getName());
+                map().setPriceProduct(source.getPriceProduct());
+                map().setSize(source.getSize());
+                map().setBrand(source.getBrand());
+                map().setCategory(null);
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<Category, CategoryDTO>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                map().setNameCategory(source.getNameCategory());
+//                map().setItemsDTOs(source.getItems());
+            }
+        });
+//        CategoryDTO(UUID id, String nameCategory, List<ItemDTO> itemsDTOs)
         return modelMapper;
     }
 }
