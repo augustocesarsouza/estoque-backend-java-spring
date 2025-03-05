@@ -28,6 +28,9 @@ public class Item {
     @Column(name = "brand")
     @JsonProperty("brand")
     private String Brand;
+    @Column(name = "description", length = 1000)
+    @JsonProperty("description")
+    private String Description;
     @ManyToOne
 //    @JoinColumn(name = "categories_id", insertable = false, updatable = false)
     @JoinColumn(name = "categories_id", nullable = false)
@@ -39,13 +42,14 @@ public class Item {
 //    @Query("SELECT i FROM Item i WHERE i.Category.nameCategory = :nameCategory")
 //    List<Item> findItemsByCategoryName(@Param("nameCategory") String nameCategory);
 
-    public Item(UUID id, String name, Double priceProduct, Integer discountPercentage, String size, String brand, List<String> imgProductAll) {
+    public Item(UUID id, String name, Double priceProduct, Integer discountPercentage, String size, String brand, String description, List<String> imgProductAll) {
         Id = id;
         Name = name;
         PriceProduct = priceProduct;
         DiscountPercentage = discountPercentage;
         Size = size;
         Brand = brand;
+        Description = description;
         ImgProductAll = imgProductAll;
     }
 
@@ -84,6 +88,10 @@ public class Item {
         return ImgProductAll;
     }
 
+    public String getDescription() {
+        return Description;
+    }
+
     public void setId(UUID id) {
         Id = id;
     }
@@ -114,5 +122,9 @@ public class Item {
 
     public void setImgProductAll(List<String> imgProductAll) {
         ImgProductAll = imgProductAll;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
     }
 }

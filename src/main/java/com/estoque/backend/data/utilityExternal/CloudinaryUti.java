@@ -37,7 +37,7 @@ public class CloudinaryUti implements ICloudinaryUti {
                     .width(width)
                     .height(height)
                     .crop("fill")
-                    .quality("auto");
+                    .quality("100");
 
             // Parâmetros de upload
             Map<String, Object> uploadParams = ObjectUtils.asMap(
@@ -46,7 +46,7 @@ public class CloudinaryUti implements ICloudinaryUti {
             );
 
             if (isImage) {
-                uploadParams.put("format", "jpg");
+                uploadParams.put("format", "png");
             } else if (isVideo) {
                 uploadParams.put("resource_type", "video");
             } else {

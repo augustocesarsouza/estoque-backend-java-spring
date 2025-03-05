@@ -34,6 +34,11 @@ public class ItemRepository implements IItemRepository {
     }
 
     @Override
+    public ItemDTO GetItemByIdWithCategory(UUID itemId) {
+        return itemRepositoryJPA.GetItemByIdWithCategory(itemId);
+    }
+
+    @Override
     public Item create(ItemDTO itemDTO) {
         if(itemDTO == null)
             return null;
@@ -45,7 +50,7 @@ public class ItemRepository implements IItemRepository {
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
         var entityCreate = new Item(entityId, itemDTO.getName(), itemDTO.getPriceProduct(),
-        itemDTO.getDiscountPercentage(), itemDTO.getSize(), itemDTO.getBrand(), itemDTO.getImgProductAll());
+        itemDTO.getDiscountPercentage(), itemDTO.getSize(), itemDTO.getBrand(), itemDTO.getDescription(), itemDTO.getImgProductAll());
 
         entityCreate.setCategory(category);
 

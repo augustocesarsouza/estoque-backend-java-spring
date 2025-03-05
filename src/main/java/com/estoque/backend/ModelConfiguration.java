@@ -87,7 +87,22 @@ public class ModelConfiguration {
 //                map().setItemsDTOs(source.getItems());
             }
         });
-//        CategoryDTO(UUID id, String nameCategory, List<ItemDTO> itemsDTOs)
+
+        modelMapper.addMappings(new PropertyMap<ReviewItem, ReviewItemDTO>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                map().setNameUser(source.getNameUser());
+                map().setEmail(source.getEmail());
+                map().setReviewTitle(source.getReviewTitle());
+                map().setDescription(source.getDescription());
+                map().setFitRating(source.getFitRating());
+                map().setQualityRating(source.getQualityRating());
+                map().setPriceRating(source.getPriceRating());
+                map().setItemsId(source.getItemsId());
+            }
+        });
+
         return modelMapper;
     }
 }

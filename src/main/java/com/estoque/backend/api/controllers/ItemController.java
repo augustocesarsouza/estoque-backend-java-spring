@@ -38,6 +38,17 @@ public class ItemController {
         return ResponseEntity.badRequest().body(result);
     }
 
+    @GetMapping("/item/get-item-with-category-by-item-id")
+    public ResponseEntity<ResultService<ItemDTO>> GetItemByIdWithCategory(@RequestParam String itemId){
+        var result = itemService.GetItemByIdWithCategory(UUID.fromString(itemId));
+
+        if(result.IsSuccess){
+            return ResponseEntity.ok(result);
+        }
+
+        return ResponseEntity.badRequest().body(result);
+    }
+
     @PostMapping("/public/item/create")
     public ResponseEntity<ResultService<ItemDTO>> Create(@Valid @RequestBody ItemCreateValidatorDTO itemCreateValidatorDTO, BindingResult resultError){
         var result = itemService.CreateAsync(itemCreateValidatorDTO, resultError);

@@ -21,6 +21,8 @@ public class ItemDTO {
     private String Size;
     @JsonProperty("brand")
     private String Brand;
+    @JsonProperty("description")
+    private String Description;
     @JsonProperty("category")
     private Category category;
     @JsonProperty("categoryId")
@@ -29,13 +31,14 @@ public class ItemDTO {
     private List<String> ImgProductAll;
 
     public ItemDTO(UUID id, String name, Double priceProduct, Integer discountPercentage, String size, String brand,
-                   Category category, String categoryId, List<String> imgProductAll) {
+                   String description, Category category, String categoryId, List<String> imgProductAll) {
         Id = id;
         Name = name;
         PriceProduct = priceProduct;
         DiscountPercentage = discountPercentage;
         Size = size;
         Brand = brand;
+        Description = description;
         this.category = category;
         this.categoryId = categoryId;
         ImgProductAll = imgProductAll;
@@ -80,6 +83,10 @@ public class ItemDTO {
         return ImgProductAll;
     }
 
+    public String getDescription() {
+        return Description;
+    }
+
     public void setId(UUID id) {
         Id = id;
     }
@@ -114,5 +121,9 @@ public class ItemDTO {
 
     public void setImgProductAll(List<String> imgProductAll) {
         ImgProductAll = imgProductAll;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
     }
 }

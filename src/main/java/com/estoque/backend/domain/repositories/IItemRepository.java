@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface IItemRepository {
     ItemDTO GetItemByItemId(UUID itemId);
     List<ItemDTO> GetItemByNameCategory(String nameCategory);
+    ItemDTO GetItemByIdWithCategory(UUID itemId);
     Item create(ItemDTO itemDTO);
     Item update(ItemDTO itemDTO);
     Item delete(UUID itemId);

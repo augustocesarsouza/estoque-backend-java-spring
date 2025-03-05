@@ -54,6 +54,21 @@ public class ItemService implements IItemService {
     }
 
     @Override
+    public ResultService<ItemDTO> GetItemByIdWithCategory(UUID itemId) {
+        try {
+            var entityDTO = itemRepository.GetItemByIdWithCategory(itemId);
+
+            if(entityDTO == null){
+                return ResultService.Fail("itemDTO does not found");
+            }
+
+            return ResultService.Ok(entityDTO);
+        }catch (Exception ex){
+            return ResultService.Fail(ex.getMessage());
+        }
+    }
+
+    @Override
     public ResultService<ItemDTO> CreateAsync(ItemCreateValidatorDTO itemCreateValidatorDTO, BindingResult result) {
         if(itemCreateValidatorDTO == null)
             return ResultService.Fail("error DTO Is Null");
@@ -118,6 +133,7 @@ public class ItemService implements IItemService {
 
             var itemDTO = new ItemDTO(null, itemCreateValidatorDTO.getName(), itemCreateValidatorDTO.getPriceProduct(),
                     itemCreateValidatorDTO.getDiscountPercentage(), itemCreateValidatorDTO.getSize(), itemCreateValidatorDTO.getBrand(),
+                    itemCreateValidatorDTO.getDescription(),
                     null, itemCreateValidatorDTO.getCategoryId(), listImgVideo);
 
             var createEntity = itemRepository.create(itemDTO);

@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public interface IItemService {
     ResultService<List<ItemDTO>> GetItemByNameCategory(String nameCategory);
+    ResultService<ItemDTO> GetItemByIdWithCategory(UUID itemId);
     ResultService<ItemDTO> CreateAsync(ItemCreateValidatorDTO itemCreateValidatorDTO, BindingResult result);
     ResultService<ItemDTO> Delete(UUID itemId);
 }

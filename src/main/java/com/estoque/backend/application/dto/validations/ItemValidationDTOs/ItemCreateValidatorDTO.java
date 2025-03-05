@@ -26,6 +26,9 @@ public class ItemCreateValidatorDTO {
     @NotEmpty(message = "size should not be empty")
     @JsonProperty("brand")
     private String Brand;
+    @NotEmpty(message = "description should not be empty")
+    @JsonProperty("description")
+    private String Description;
     @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
             message = "categoryId must be a valid UUID")
     @JsonProperty("categoryId")
@@ -34,12 +37,14 @@ public class ItemCreateValidatorDTO {
     @JsonProperty("imgProductAll")
     private List<String> ImgProductAll;
 
-    public ItemCreateValidatorDTO(String name, Double priceProduct, Integer discountPercentage, String size, String brand, String categoryId, List<String> imgProductAll) {
+    public ItemCreateValidatorDTO(String name, Double priceProduct, Integer discountPercentage, String size, String brand, String description,
+                                  String categoryId, List<String> imgProductAll) {
         Name = name;
         PriceProduct = priceProduct;
         DiscountPercentage = discountPercentage;
         Size = size;
         Brand = brand;
+        Description = description;
         this.categoryId = categoryId;
         ImgProductAll = imgProductAll;
     }
@@ -72,6 +77,10 @@ public class ItemCreateValidatorDTO {
         return ImgProductAll;
     }
 
+    public String getDescription() {
+        return Description;
+    }
+
     public void setName(String name) {
         Name = name;
     }
@@ -98,5 +107,9 @@ public class ItemCreateValidatorDTO {
 
     public void setImgProductAll(List<String> imgProductAll) {
         ImgProductAll = imgProductAll;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
     }
 }
