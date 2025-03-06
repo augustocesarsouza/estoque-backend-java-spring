@@ -49,6 +49,9 @@ public class ItemCreateValidatorDTO {
         ImgProductAll = imgProductAll;
     }
 
+    public ItemCreateValidatorDTO() {
+    }
+
     public String getName() {
         return Name;
     }

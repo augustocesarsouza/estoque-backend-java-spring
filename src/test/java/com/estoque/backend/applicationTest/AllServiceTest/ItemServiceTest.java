@@ -2,7 +2,10 @@ package com.estoque.backend.applicationTest.AllServiceTest;
 
 import com.estoque.backend.application.dto.ItemDTO;
 import com.estoque.backend.application.dto.validateErrosDTOs.IValidateErrorsDTO;
+import com.estoque.backend.application.dto.validations.ItemValidationDTOs.ItemCreateValidatorDTO;
 import com.estoque.backend.application.services.ItemService;
+import com.estoque.backend.data.utilityExternal.Interface.ICloudinaryUti;
+import com.estoque.backend.domain.entities.Category;
 import com.estoque.backend.domain.entities.Item;
 import com.estoque.backend.domain.repositories.IItemRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +32,15 @@ public class ItemServiceTest {
     private IValidateErrorsDTO validateErrorsDTO;
     @Mock
     private ModelMapper modelMapper;
+    @Mock
+    private ICloudinaryUti cloudinaryUti;
 
     private ItemService itemService;
 
     @BeforeEach
     public void setup(){
         MockitoAnnotations.openMocks(this);
-        itemService = new ItemService(iItemRepository, validateErrorsDTO, modelMapper);
+        itemService = new ItemService(iItemRepository, validateErrorsDTO, modelMapper, cloudinaryUti);
     }
 
     @Test
@@ -67,8 +74,10 @@ public class ItemServiceTest {
 
     @Test
     public void should_CreateAsync_Item_Successfully(){
-        var itemDTO = new ItemDTO(UUID.fromString("97bf82aa-b623-481c-8d46-c2e470c85c5c"), "augusto",
-                124.1, 20, "12,13", "brand123", null, null);
+        var itemCreateValidatorDTO = new ItemCreateValidatorDTO("augusto",124.1, 20, "12,13",
+                "brand123", null, null, null);
+
+        BindingResult bindingResult = new BeanPropertyBindingResult(itemCreateValidatorDTO, "ItemCreateValidatorDTO");
 
         var item = new Item();
         var itemDTOMap = new ItemDTO();
@@ -78,7 +87,7 @@ public class ItemServiceTest {
         when(modelMapper.map(item, ItemDTO.class)).thenReturn(itemDTOMap);
 
         // Act
-        var result = itemService.CreateAsync(itemDTO);
+        var result = itemService.CreateAsync(itemCreateValidatorDTO, bindingResult);
 
         // Assert
         assertTrue(result.IsSuccess);
@@ -87,8 +96,9 @@ public class ItemServiceTest {
 
     @Test
     public void error_CreateAsync_DTO_Is_Null(){
+        BindingResult bindingResult = new BeanPropertyBindingResult(new ItemCreateValidatorDTO(), "ItemCreateValidatorDTO");
         // Act
-        var result = itemService.CreateAsync(null);
+        var result = itemService.CreateAsync(null, bindingResult);
 
         // Assert
         assertFalse(result.IsSuccess);
@@ -97,8 +107,10 @@ public class ItemServiceTest {
 
     @Test
     public void should_ThrowException_When_UserAddress(){
-        var itemDTO = new ItemDTO(UUID.fromString("97bf82aa-b623-481c-8d46-c2e470c85c5c"), "augusto",
-                124.1, 20, "12,13", "brand123", null, null);
+        var itemCreateValidatorDTO = new ItemCreateValidatorDTO("augusto",124.1, 20, "12,13",
+                "brand123", null, null, null);
+
+        BindingResult bindingResult = new BeanPropertyBindingResult(itemCreateValidatorDTO, "ItemCreateValidatorDTO");
 
         String expectedErrorMessage = "Database connection error";
 
@@ -106,7 +118,7 @@ public class ItemServiceTest {
 //        when(modelMapper.map(item, ItemDTO.class)).thenReturn(itemDTOMap);
 
         // Act
-        var result = itemService.CreateAsync(itemDTO);
+        var result = itemService.CreateAsync(itemCreateValidatorDTO, bindingResult);
 
         // Assert
         assertFalse(result.IsSuccess);

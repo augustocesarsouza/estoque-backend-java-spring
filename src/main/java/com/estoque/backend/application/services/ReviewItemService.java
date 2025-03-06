@@ -109,6 +109,9 @@ public class ReviewItemService implements IReviewItemService {
     @Override
     public ResultService<ReviewItemDTO> Delete(UUID reviewItemId) {
         try {
+            if(reviewItemId == null)
+                return ResultService.Fail("review item id is null");
+
             var entityDeleteSuccessfully = reviewItemRepository.delete(reviewItemId);
 
             if(entityDeleteSuccessfully == null)
